@@ -38,7 +38,7 @@ BUCKET_NAME = os.getenv("GCP_BUCKET_NAME")
 gcs_client  = storage.Client()
 
 def _download(url: str, dest: str):
-    """Scarica qualsiasi URL HTTPS pubblico."""
+    """Scarica un file da QUALSIASI URL HTTPS pubblico."""
     import requests, pathlib
     r = requests.get(url, stream=True, timeout=60)
     r.raise_for_status()
