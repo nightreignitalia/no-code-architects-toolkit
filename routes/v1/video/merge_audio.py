@@ -37,17 +37,12 @@ API_KEY     = os.getenv("API_UNCORE_KEY")     # already set in Cloud Run
 BUCKET_NAME = os.getenv("GCP_BUCKET_NAME")
 gcs_client  = storage.Client()
 
-def _download(gcs_url: str, dest: str) -> None:
-    """
-    gcs_url must be of the form
-    https://storage.googleapis.com/<bucket>/<blob>
-    """
-    if not gcs_url.startswith("https://storage.googleapis.com/"):
-        raise ValueError("URL must be a public GCS link")
-    bucket_name, blob_name = gcs_url.replace(
-        "https://storage.googleapis.com/", ""
-    ).split("/", 1)
-    gcs_client.bucket(bucket_name).blob(blob_name).download_to_filename(dest)
+def _download(url: str, dest: str):
+    """Scarica qualsiasi URL HTTPS pubblico."""
+    import requests, pathlib
+    r = requests.get(url, stream=True, timeout=60)
+    r.raise_for_status()
+    pathlib.Path(dest).write_bytes(r.content)
 
 def _upload(local_path: str) -> str:
     dst_blob = f"merged/{uuid.uuid4()}.mp4"
