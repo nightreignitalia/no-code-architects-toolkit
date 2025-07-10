@@ -214,3 +214,12 @@ gunicorn --bind 0.0.0.0:8080 \
 
 # Run the shell script
 CMD ["/app/run_gunicorn.sh"]
+
+FROM stephengpope/no-code-architects-toolkit:latest
+
+# Installa la nuova dipendenza
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Sovrascrivi solo il file modificato
+COPY routes/v1/video/merge_audio.py /app/routes/v1/video/merge_audio.py
