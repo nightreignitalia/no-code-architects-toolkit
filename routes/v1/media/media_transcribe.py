@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
         "response_type": {"type": "string", "enum": ["direct", "cloud"]},
         "language": {"type": "string"},
         "initial_prompt": {"type": "string"}, 
+        "output": {"type": "string", "enum": ["ass", "srt"]},
         "webhook_url": {"type": "string", "format": "uri"},
         "id": {"type": "string"},
         "words_per_line": {"type": "integer", "minimum": 1}
